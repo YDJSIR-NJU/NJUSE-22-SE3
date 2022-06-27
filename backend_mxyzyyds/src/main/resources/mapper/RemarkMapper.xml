@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.remark.RemarkMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.remark.Remark">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="defect_report_id" jdbcType="BIGINT" property="defectReportId"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete
+        from remark
+        where user_id = #{userId,jdbcType=BIGINT}
+          and defect_report_id = #{defectReportId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.remark.Remark">
+        insert into remark (user_id, defect_report_id, score,
+                            create_time, description)
+        values (#{userId,jdbcType=BIGINT}, #{defectReportId,jdbcType=BIGINT}, #{score,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.remark.Remark">
+        update remark
+        set score       = #{score,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            description = #{description,jdbcType=LONGVARCHAR}
+        where user_id = #{userId,jdbcType=BIGINT}
+          and defect_report_id = #{defectReportId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select user_id, defect_report_id, score, create_time, description
+        from remark
+        where user_id = #{userId,jdbcType=BIGINT}
+          and defect_report_id = #{defectReportId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_id, defect_report_id, score, create_time, description
+        from remark
+    </select>
+    <select id="selectByReportId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select user_id, defect_report_id, score, create_time, description
+        from remark
+        where defect_report_id = #{defectReportId,jdbcType=BIGINT}
+        order by create_time desc
+    </select>
+
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select user_id, defect_report_id, score, create_time, description
+        from remark
+        where user_id = #{userId,jdbcType=BIGINT}
+        order by create_time desc
+    </select>
+</mapper>

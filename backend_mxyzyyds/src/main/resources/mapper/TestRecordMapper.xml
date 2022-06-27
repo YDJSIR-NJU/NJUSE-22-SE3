@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.testRecord.TestRecordMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.testRecord.TestRecord">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="finished" jdbcType="BIT" property="finished"/>
+        <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime"/>
+        <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime"/>
+    </resultMap>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.assignment.collect.po.testRecord.TestRecord"
+            useGeneratedKeys="true">
+        insert into test_record(id, task_id, user_id, finished, commit_time, finish_time)
+        values (#{id,jdbcType=BIGINT},
+                #{taskId,jdbcType=BIGINT},
+                #{userId,jdbcType=BIGINT},
+                #{finished,jdbcType=BIT},
+                #{commitTime,jdbcType=TIMESTAMP},
+                #{finishTime,jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from test_record
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, task_id, user_id, finished, commit_time, finish_time
+        from test_record
+    </select>
+    <select id="selectByTaskIdAndUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, task_id, user_id, finished, commit_time, finish_time
+        from test_record t
+        where t.user_id = #{uid,jdbcType=BIGINT}
+          and t.task_id = #{taskid,jdbcType=BIGINT}
+    </select>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.testRecord.TestRecord">
+        update test_record
+        set task_id     = #{taskId,jdbcType=BIGINT},
+            user_id     = #{userId,jdbcType=BIGINT},
+            finished    = #{finished,jdbcType=BIT},
+            commit_time = #{commitTime,jdbcType=TIMESTAMP},
+            finish_time = #{finishTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, task_id, user_id, finished, commit_time, finish_time
+        from test_record
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, task_id, user_id, finished, commit_time, finish_time
+        from test_record
+        where user_id = #{uid,jdbcType=BIGINT}
+    </select>
+    <select id="selectByTaskId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, task_id, user_id, finished, commit_time, finish_time
+        from test_record
+        where task_id = #{taskid,jdbcType=BIGINT}
+    </select>
+
+
+</mapper>

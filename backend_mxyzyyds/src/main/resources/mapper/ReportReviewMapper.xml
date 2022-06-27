@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.reportReview.ReportReviewMapper">
+  <resultMap id="BaseResultMap" type="com.assignment.collect.po.reportReview.ReportReview">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="report_id" jdbcType="BIGINT" property="reportId" />
+    <result column="bug_nums" jdbcType="INTEGER" property="bugNums" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="is_repeat_bug" jdbcType="BIT" property="isRepeatBug" />
+    <result column="accepted" jdbcType="BIT" property="accepted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from report_review
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.assignment.collect.po.reportReview.ReportReview">
+    insert into report_review (id, report_id, bug_nums,
+      score, is_repeat_bug, accepted,
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{reportId,jdbcType=BIGINT}, #{bugNums,jdbcType=INTEGER},
+      #{score,jdbcType=DOUBLE}, #{isRepeatBug,jdbcType=BIT}, #{accepted,jdbcType=BIT},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.reportReview.ReportReview">
+    update report_review
+    set report_id = #{reportId,jdbcType=BIGINT},
+      bug_nums = #{bugNums,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      is_repeat_bug = #{isRepeatBug,jdbcType=BIT},
+      accepted = #{accepted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, report_id, bug_nums, score, is_repeat_bug, accepted, create_time
+    from report_review
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, report_id, bug_nums, score, is_repeat_bug, accepted, create_time
+    from report_review
+  </select>
+  <select id="selectByReportId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, report_id, bug_nums, score, is_repeat_bug, accepted, create_time
+    from report_review
+    where report_id = #{reportid,jdbcType=BIGINT}
+  </select>
+</mapper>

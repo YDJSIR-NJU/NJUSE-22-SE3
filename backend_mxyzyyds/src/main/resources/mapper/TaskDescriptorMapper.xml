@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.taskDescriptor.TaskDescriptorMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.taskDescriptor.TaskDescriptor">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="taskId" jdbcType="INTEGER" property="taskid"/>
+        <result column="words" jdbcType="LONGVARCHAR" property="words"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from task_descriptor
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.taskDescriptor.TaskDescriptor">
+        insert into task_descriptor (id, taskId, words)
+        values (#{id,jdbcType=BIGINT}, #{taskid,jdbcType=INTEGER}, #{words,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.taskDescriptor.TaskDescriptor">
+        update task_descriptor
+        set taskId = #{taskid,jdbcType=INTEGER},
+            words  = #{words,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, taskId, words
+        from task_descriptor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, taskId, words
+        from task_descriptor
+    </select>
+    <select id="selectByTaskid" resultType="java.lang.String">
+        select words
+        from task_descriptor
+        where taskId = #{taskId,jdbcType=INTEGER}
+    </select>
+
+</mapper>

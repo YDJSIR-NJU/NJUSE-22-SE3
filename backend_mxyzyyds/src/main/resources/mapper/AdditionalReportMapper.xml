@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.additionalReport.AdditionalReportMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.additionalReport.AdditionalReport">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="defect_report_id" jdbcType="BIGINT" property="defectReportId"/>
+        <result column="test_record_id" jdbcType="BIGINT" property="testRecordId"/>
+        <result column="operating_system" jdbcType="CHAR" property="operatingSystem"/>
+        <result column="device_brand" jdbcType="CHAR" property="deviceBrand"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="screenshot_path_list" jdbcType="LONGVARCHAR" property="screenshotPathList"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from additional_report
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.additionalReport.AdditionalReport" keyColumn="id"
+            keyProperty="id" useGeneratedKeys="true">
+        insert into additional_report (id, defect_report_id, test_record_id,
+                                       operating_system, device_brand, create_time,
+                                       screenshot_path_list, description, user_id)
+        values (#{id,jdbcType=BIGINT}, #{defectReportId,jdbcType=BIGINT}, #{testRecordId,jdbcType=BIGINT},
+                #{operatingSystem,jdbcType=CHAR}, #{deviceBrand,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{screenshotPathList,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR},
+                #{userId,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.additionalReport.AdditionalReport">
+        update additional_report
+        set defect_report_id     = #{defectReportId,jdbcType=BIGINT},
+            test_record_id       = #{testRecordId,jdbcType=BIGINT},
+            operating_system     = #{operatingSystem,jdbcType=CHAR},
+            device_brand         = #{deviceBrand,jdbcType=CHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            screenshot_path_list = #{screenshotPathList,jdbcType=LONGVARCHAR},
+            description          = #{description,jdbcType=LONGVARCHAR},
+            user_id              = #{userId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+    </select>
+    <select id="selectByReportId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+        where defect_report_id = #{defectReportId,jdbcType=BIGINT}
+        order by id desc
+    </select>
+    <select id="selectByReportIdAndTestRecordId" parameterType="map" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+        where defect_report_id = #{defectReportId,jdbcType=BIGINT}, test_record_id = #{testRecordId, jdbcType=BIGINT}
+        order by id desc
+    </select>
+    <select id="selectByReportIdAndUserId" parameterType="map" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+        where defect_report_id = #{defectReportId,jdbcType=BIGINT}
+          and user_id = #{userId, jdbcType=BIGINT}
+        order by id desc
+    </select>
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               defect_report_id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               create_time,
+               screenshot_path_list,
+               description,
+               user_id
+        from additional_report
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+</mapper>

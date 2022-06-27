@@ -1,0 +1,24 @@
+server:
+  port: 25565
+
+spring:
+  datasource:
+    username: root
+    password: aaaaaaaaaaaaaa
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://aaaaaaaaaaaa/collect
+    hikari:
+      max-lifetime: 30001
+  servlet:
+    multipart:
+      max-file-size: 200MB #设置上传文件大小不得超过200MB
+      max-request-size: 210MB #设置一次请求的数据量不得超过200MB
+      enabled: true
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  # 是否执行MyBatis xml配置文件的状态检查, 只是检查状态,默认false
+  check-config-location: true
+  # mybatis-config.xml文件的位置
+  config-location: classpath:mybatis-config.xml

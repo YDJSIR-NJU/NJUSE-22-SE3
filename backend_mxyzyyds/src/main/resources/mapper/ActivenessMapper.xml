@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.activeness.ActivenessMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.activeness.Activeness">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="lastBugTime" jdbcType="TIMESTAMP" property="lastbugtime"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="lastReportTime" jdbcType="TIMESTAMP" property="lastreporttime"/>
+        <result column="lastTaskTime" jdbcType="TIMESTAMP" property="lasttasktime"/>
+        <result column="numbugs_week" jdbcType="BIGINT" property="numbugsWeek"/>
+        <result column="numbugs_month" jdbcType="BIGINT" property="numbugsMonth"/>
+        <result column="numreports_week" jdbcType="BIGINT" property="numreportsWeek"/>
+        <result column="numreports_month" jdbcType="BIGINT" property="numreportsMonth"/>
+        <result column="numtasks_week" jdbcType="BIGINT" property="numtasksWeek"/>
+        <result column="numtasks_month" jdbcType="BIGINT" property="numtasksMonth"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from activeness
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.activeness.Activeness">
+        insert into activeness (id, lastBugTime, uid,
+                                lastReportTime, lastTaskTime, numbugs_week,
+                                numbugs_month, numreports_week, numreports_month,
+                                numtasks_week, numtasks_month)
+        values (#{id,jdbcType=BIGINT}, #{lastbugtime,jdbcType=TIMESTAMP}, #{uid,jdbcType=BIGINT},
+                #{lastreporttime,jdbcType=TIMESTAMP}, #{lasttasktime,jdbcType=TIMESTAMP},
+                #{numbugsWeek,jdbcType=BIGINT},
+                #{numbugsMonth,jdbcType=BIGINT}, #{numreportsWeek,jdbcType=BIGINT}, #{numreportsMonth,jdbcType=BIGINT},
+                #{numtasksWeek,jdbcType=BIGINT}, #{numtasksMonth,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.activeness.Activeness">
+        update activeness
+        set lastBugTime      = #{lastbugtime,jdbcType=TIMESTAMP},
+            uid              = #{uid,jdbcType=BIGINT},
+            lastReportTime   = #{lastreporttime,jdbcType=TIMESTAMP},
+            lastTaskTime     = #{lasttasktime,jdbcType=TIMESTAMP},
+            numbugs_week     = #{numbugsWeek,jdbcType=BIGINT},
+            numbugs_month    = #{numbugsMonth,jdbcType=BIGINT},
+            numreports_week  = #{numreportsWeek,jdbcType=BIGINT},
+            numreports_month = #{numreportsMonth,jdbcType=BIGINT},
+            numtasks_week    = #{numtasksWeek,jdbcType=BIGINT},
+            numtasks_month   = #{numtasksMonth,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               lastBugTime,
+               uid,
+               lastReportTime,
+               lastTaskTime,
+               numbugs_week,
+               numbugs_month,
+               numreports_week,
+               numreports_month,
+               numtasks_week,
+               numtasks_month
+        from activeness
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               lastBugTime,
+               uid,
+               lastReportTime,
+               lastTaskTime,
+               numbugs_week,
+               numbugs_month,
+               numreports_week,
+               numreports_month,
+               numtasks_week,
+               numtasks_month
+        from activeness
+    </select>
+    <select id="selectByUserID" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               lastBugTime,
+               uid,
+               lastReportTime,
+               lastTaskTime,
+               numbugs_week,
+               numbugs_month,
+               numreports_week,
+               numreports_month,
+               numtasks_week,
+               numtasks_month
+        from activeness
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.userCapability.UserCapabilityMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.userCapability.UserCapability">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="Collaboration" jdbcType="DOUBLE" property="collaboration"/>
+        <result column="censorship_ability" jdbcType="DOUBLE" property="censorshipAbility"/>
+        <result column="average_remark" jdbcType="DOUBLE" property="averageRemark"/>
+        <result column="report_repeatability" jdbcType="DOUBLE" property="reportRepeatability"/>
+        <result column="duplicate_bug_per" jdbcType="DOUBLE" property="duplicateBugPer"/>
+        <result column="professional_ability" jdbcType="BIGINT" property="professionalAbility"/>
+        <result column="total_bug_nums" jdbcType="BIGINT" property="totalBugNums"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from user_capability
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.userCapability.UserCapability">
+        insert into user_capability (id, uid, Collaboration,
+                                     censorship_ability, average_remark, report_repeatability,
+                                     duplicate_bug_per, professional_ability, total_bug_nums)
+        values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{collaboration,jdbcType=DOUBLE},
+                #{censorshipAbility,jdbcType=DOUBLE}, #{averageRemark,jdbcType=DOUBLE},
+                #{reportRepeatability,jdbcType=DOUBLE},
+                #{duplicateBugPer,jdbcType=DOUBLE}, #{professionalAbility,jdbcType=BIGINT},
+                #{totalBugNums,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.userCapability.UserCapability">
+        update user_capability
+        set uid                  = #{uid,jdbcType=BIGINT},
+            Collaboration        = #{collaboration,jdbcType=DOUBLE},
+            censorship_ability   = #{censorshipAbility,jdbcType=DOUBLE},
+            average_remark       = #{averageRemark,jdbcType=DOUBLE},
+            report_repeatability = #{reportRepeatability,jdbcType=DOUBLE},
+            duplicate_bug_per    = #{duplicateBugPer,jdbcType=DOUBLE},
+            professional_ability = #{professionalAbility,jdbcType=BIGINT},
+            total_bug_nums       = #{totalBugNums,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               uid,
+               Collaboration,
+               censorship_ability,
+               average_remark,
+               report_repeatability,
+               duplicate_bug_per,
+               professional_ability,
+               total_bug_nums
+        from user_capability
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               uid,
+               Collaboration,
+               censorship_ability,
+               average_remark,
+               report_repeatability,
+               duplicate_bug_per,
+               professional_ability,
+               total_bug_nums
+        from user_capability
+    </select>
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               uid,
+               Collaboration,
+               censorship_ability,
+               average_remark,
+               report_repeatability,
+               duplicate_bug_per,
+               professional_ability,
+               total_bug_nums
+        from user_capability
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+</mapper>

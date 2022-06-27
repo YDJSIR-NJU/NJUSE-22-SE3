@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.user.UserMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.user.User">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="uname" jdbcType="VARCHAR" property="uname"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="user_role" jdbcType="CHAR" property="userRole"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="credit" jdbcType="INTEGER" property="credit"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <result column="prefer_types" jdbcType="CHAR" property="preferTypes"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from user
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.assignment.collect.po.user.User"
+            useGeneratedKeys="true">
+        insert into user (id, uname, password,
+                          email, user_role, create_time, credit, level, prefer_types)
+        values (#{id,jdbcType=BIGINT}, #{uname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+                #{email,jdbcType=VARCHAR}, #{userRole,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{credit, jdbcType=INTEGER}, #{level, jdbcType=INTEGER}, #{preferTypes,jdbcType=CHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.user.User">
+        update user
+        set uname        = #{uname,jdbcType=VARCHAR},
+            password     = #{password,jdbcType=VARCHAR},
+            email        = #{email,jdbcType=VARCHAR},
+            user_role    = #{userRole,jdbcType=CHAR},
+            create_time  = #{createTime,jdbcType=TIMESTAMP},
+            credit       = #{credit, jdbcType=INTEGER},
+            level        = #{level, jdbcType=INTEGER},
+            prefer_types = #{preferTypes,jdbcType=CHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               uname,
+               password,
+               email,
+               user_role,
+               create_time,
+               credit,
+               level,
+               prefer_types
+        from user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               uname,
+               password,
+               email,
+               user_role,
+               create_time,
+               credit,
+               level,
+               prefer_types
+        from user
+    </select>
+    <select id="selectByEmail" resultMap="BaseResultMap">
+        select id,
+               uname,
+               password,
+               email,
+               user_role,
+               create_time,
+               credit,
+               level,
+               prefer_types
+        from user
+        where email = #{email, jdbcType=VARCHAR}
+    </select>
+</mapper>

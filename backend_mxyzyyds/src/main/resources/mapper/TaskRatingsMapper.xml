@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.taskRatings.TaskRatingsMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.taskRatings.TaskRatings">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <id column="task_id" jdbcType="BIGINT" property="taskId"/>
+        <result column="score" jdbcType="INTEGER" property="score"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        delete
+        from task_ratings
+        where user_id = #{userId,jdbcType=BIGINT}
+          and task_id = #{taskId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.taskRatings.TaskRatings">
+        insert into task_ratings (user_id, task_id, score)
+        values (#{userId,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{score,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.taskRatings.TaskRatings">
+        update task_ratings
+        set score = #{score,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=BIGINT}
+          and task_id = #{taskId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select user_id, task_id, score
+        from task_ratings
+        where user_id = #{userId,jdbcType=BIGINT}
+          and task_id = #{taskId,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select user_id, task_id, score
+        from task_ratings
+    </select>
+    <select id="selectByUid" parameterType="map" resultMap="BaseResultMap">
+        select user_id, task_id, score
+        from task_ratings
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByTaskId" parameterType="map" resultMap="BaseResultMap">
+        select user_id, task_id, score
+        from task_ratings
+        where task_id = #{taskId,jdbcType=BIGINT}
+    </select>
+</mapper>

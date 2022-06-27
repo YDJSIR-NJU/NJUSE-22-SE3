@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.dupBug.DupBugMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.dupBug.DupBug">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="reportId" jdbcType="INTEGER" property="reportid"/>
+        <result column="dupId" jdbcType="INTEGER" property="dupid"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from dup_bug
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.dupBug.DupBug">
+        insert into dup_bug (id, reportId, dupId)
+        values (#{id,jdbcType=INTEGER}, #{reportid,jdbcType=INTEGER}, #{dupid,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.dupBug.DupBug">
+        update dup_bug
+        set reportId = #{reportid,jdbcType=INTEGER},
+            dupId    = #{dupid,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select id, reportId, dupId
+        from dup_bug
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, reportId, dupId
+        from dup_bug
+    </select>
+    <select id="selectByReportid" resultType="com.assignment.collect.po.dupBug.DupBug">
+        select id, reportId, dupId
+        from dup_bug
+        where reportId = #{reportId,jdbcType=INTEGER}
+    </select>
+</mapper>

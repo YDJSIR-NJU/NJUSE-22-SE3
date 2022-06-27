@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.similarity.SimilarityMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.similarity.Similarity">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="defect_report_id_1" jdbcType="BIGINT" property="defectReportId1"/>
+        <result column="defect_report_id_2" jdbcType="BIGINT" property="defectReportId2"/>
+        <result column="similarity" jdbcType="DOUBLE" property="similarity"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from similarity
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.similarity.Similarity">
+        insert into similarity (id, defect_report_id_1, defect_report_id_2,
+                                similarity)
+        values (#{id,jdbcType=BIGINT}, #{defectReportId1,jdbcType=BIGINT}, #{defectReportId2,jdbcType=BIGINT},
+                #{similarity,jdbcType=DOUBLE})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.similarity.Similarity">
+        update similarity
+        set defect_report_id_1 = #{defectReportId1,jdbcType=BIGINT},
+            defect_report_id_2 = #{defectReportId2,jdbcType=BIGINT},
+            similarity         = #{similarity,jdbcType=DOUBLE}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, defect_report_id_1, defect_report_id_2, similarity
+        from similarity
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByReportId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, defect_report_id_1, defect_report_id_2, similarity
+        from similarity
+        where defect_report_id_1 = #{reportid,jdbcType=BIGINT}
+           or defect_report_id_2 = #{reportid,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, defect_report_id_1, defect_report_id_2, similarity
+        from similarity
+    </select>
+</mapper>

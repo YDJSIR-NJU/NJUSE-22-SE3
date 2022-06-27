@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.defectReport.DefectReportMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.defectReport.DefectReport">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="test_record_id" jdbcType="BIGINT" property="testRecordId"/>
+        <result column="operating_system" jdbcType="CHAR" property="operatingSystem"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="device_brand" jdbcType="CHAR" property="deviceBrand"/>
+        <result column="screenshot_path_list" jdbcType="LONGVARCHAR" property="screenshotPathList"/>
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.assignment.collect.po.defectReport.DefectReport" useGeneratedKeys="true">
+        insert into defect_report (id, test_record_id, operating_system,
+                                   device_brand, screenshot_path_list, description, title, create_time, status)
+        values (#{id,jdbcType=BIGINT}, #{testRecordId,jdbcType=BIGINT}, #{operatingSystem,jdbcType=CHAR},
+                #{deviceBrand,jdbcType=CHAR}, #{screenshotPathList,jdbcType=LONGVARCHAR},
+                #{description,jdbcType=LONGVARCHAR},
+                #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR})
+    </insert>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               test_record_id,
+               operating_system,
+               device_brand,
+               screenshot_path_list,
+               description,
+               title,
+               create_time,
+               status
+        from defect_report
+        order by id desc
+    </select>
+    <select id="selectByTestRecordId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select d.id,
+               d.test_record_id,
+               d.screenshot_path_list,
+               d.description,
+               d.operating_system,
+               d.device_brand,
+               d.create_time,
+               d.title,
+               d.status
+        from defect_report d
+        where d.test_record_id = #{testRecordId,jdbcType=BIGINT}
+        order by d.id desc
+    </select>
+    <select id="selectByTaskId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select d.id,
+               d.test_record_id,
+               d.screenshot_path_list,
+               d.description,
+               d.operating_system,
+               d.device_brand,
+               d.create_time,
+               d.title,
+               d.status
+        from defect_report d,
+             test_record tr
+        where d.test_record_id = tr.id
+          and tr.task_id = #{taskId,jdbcType=BIGINT}
+        order by d.id desc
+    </select>
+    <select id="selectPassedByTaskId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select d.id,
+               d.test_record_id,
+               d.screenshot_path_list,
+               d.description,
+               d.operating_system,
+               d.device_brand,
+               d.create_time,
+               d.title,
+               d.status
+        from defect_report d,
+             test_record tr
+        where d.test_record_id = tr.id and d.status = 'PASSED'
+          and tr.task_id = #{taskId,jdbcType=BIGINT}
+        order by d.id desc
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select d.id,
+               d.test_record_id,
+               d.screenshot_path_list,
+               d.description,
+               d.operating_system,
+               d.device_brand,
+               d.create_time,
+               d.title,
+               d.status
+        from defect_report d
+        where d.id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from defect_report
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.defectReport.DefectReport">
+        update defect_report
+        set test_record_id       = #{testRecordId,jdbcType=BIGINT},
+            operating_system     =#{operatingSystem,jdbcType=CHAR},
+            device_brand         =#{deviceBrand,jdbcType=CHAR},
+            screenshot_path_list = #{screenshotPathList,jdbcType=LONGVARCHAR},
+            description          =#{description,jdbcType=LONGVARCHAR},
+            create_time          = #{createTime,jdbcType=TIMESTAMP},
+            status= #{status,jdbcType=CHAR},
+            title                = #{title,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

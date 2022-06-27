@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.task.TaskMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.task.Task">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime"/>
+        <result column="total_num" jdbcType="INTEGER" property="totalNum"/>
+        <result column="current_num" jdbcType="INTEGER" property="currentNum"/>
+        <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="device_brand" jdbcType="CHAR" property="deviceBrand"/>
+        <result column="operating_system" jdbcType="CHAR" property="operatingSystem"/>
+        <result column="exe_file_path" jdbcType="LONGVARCHAR" property="exeFilePath"/>
+        <result column="discrib_file_path" jdbcType="LONGVARCHAR" property="discribFilePath"/>
+        <result column="task_discribe" jdbcType="LONGVARCHAR" property="taskDiscribe"/>
+        <result column="difficulty" jdbcType="INTEGER" property="difficulty"/>
+    </resultMap>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.assignment.collect.po.task.Task"
+            useGeneratedKeys="true">
+        insert into task (id, start_time, finish_time,
+                          total_num, current_num, type,
+                          user_id, device_brand, operating_system,
+                          exe_file_path, discrib_file_path, task_discribe, difficulty)
+        values (#{id,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP},
+                #{totalNum,jdbcType=INTEGER}, #{currentNum,jdbcType=INTEGER}, #{type,jdbcType=CHAR},
+                #{userId,jdbcType=BIGINT}, #{deviceBrand,jdbcType=CHAR}, #{operatingSystem,jdbcType=CHAR},
+                #{exeFilePath,jdbcType=LONGVARCHAR}, #{discribFilePath,jdbcType=LONGVARCHAR},
+                #{taskDiscribe,jdbcType=LONGVARCHAR},
+                #{difficulty,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.task.Task">
+        update task
+        set start_time        = #{startTime,jdbcType=TIMESTAMP},
+            finish_time       = #{finishTime,jdbcType=TIMESTAMP},
+            total_num         = #{totalNum,jdbcType=INTEGER},
+            current_num       = #{currentNum,jdbcType=INTEGER},
+            type              = #{type,jdbcType=CHAR},
+            user_id           = #{userId,jdbcType=BIGINT},
+            device_brand      = #{deviceBrand,jdbcType=CHAR},
+            operating_system  = #{operatingSystem,jdbcType=CHAR},
+            exe_file_path     = #{exeFilePath,jdbcType=LONGVARCHAR},
+            discrib_file_path = #{discribFilePath,jdbcType=LONGVARCHAR},
+            task_discribe     = #{taskDiscribe,jdbcType=LONGVARCHAR},
+            difficulty        = #{difficulty,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from task
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id,
+               exe_file_path,
+               discrib_file_path,
+               start_time,
+               finish_time,
+               total_num,
+               current_num,
+               type,
+               user_id,
+               task_discribe,
+               difficulty,
+               device_brand,
+               operating_system
+        from task
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id,
+               exe_file_path,
+               discrib_file_path,
+               start_time,
+               finish_time,
+               total_num,
+               current_num,
+               type,
+               user_id,
+               task_discribe,
+               difficulty,
+               device_brand,
+               operating_system
+        from task
+        order by id desc
+    </select>
+
+    <select id="selectByUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select t.id,
+               t.exe_file_path,
+               t.discrib_file_path,
+               t.task_discribe,
+               t.start_time,
+               t.finish_time,
+               t.total_num,
+               t.current_num,
+               t.type,
+               t.user_id,
+               t.difficulty,
+               t.device_brand,
+               t.operating_system
+        from task t
+        where t.user_id = #{uid,jdbcType=BIGINT}
+        order by t.id desc
+    </select>
+    <select id="selectProcessingByUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select t.id,
+               t.exe_file_path,
+               t.discrib_file_path,
+               t.task_discribe,
+               t.start_time,
+               t.finish_time,
+               t.total_num,
+               t.current_num,
+               t.type,
+               t.user_id,
+               t.difficulty,
+               t.device_brand,
+               t.operating_system
+        from task t
+        where t.id in (select t1.task_id
+                       from test_record t1
+                       where t1.user_id = #{uid,jdbcType=BIGINT}
+                         and t1.finished = false)
+        order by t.id desc
+    </select>
+    <select id="selectHistoryByUid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select t.id,
+               t.exe_file_path,
+               t.discrib_file_path,
+               t.task_discribe,
+               t.start_time,
+               t.finish_time,
+               t.total_num,
+               t.current_num,
+               t.type,
+               t.user_id,
+               t.difficulty,
+               t.device_brand,
+               t.operating_system
+        from task t
+        where t.id in (select t1.task_id
+                       from test_record t1
+                       where t1.user_id = #{uid,jdbcType=BIGINT}
+                         and t1.finished = true)
+        order by t.id desc
+    </select>
+    <select id="todoList" resultMap="BaseResultMap">
+        select t.id,
+               t.exe_file_path,
+               t.discrib_file_path,
+               t.task_discribe,
+               t.start_time,
+               t.finish_time,
+               t.total_num,
+               t.current_num,
+               t.type,
+               t.user_id,
+               t.difficulty,
+               t.device_brand,
+               t.operating_system
+        from task t
+        where t.total_num &gt; t.current_num
+          and t.finish_time &gt; now()
+        order by t.id desc
+    </select>
+</mapper>

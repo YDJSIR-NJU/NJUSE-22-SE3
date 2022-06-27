@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.assignment.collect.dao.userDescriptor.UserDescriptorMapper">
+    <resultMap id="BaseResultMap" type="com.assignment.collect.po.userDescriptor.UserDescriptor">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="userId" jdbcType="INTEGER" property="userid"/>
+        <result column="words" jdbcType="LONGVARCHAR" property="words"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from user_descriptor
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.assignment.collect.po.userDescriptor.UserDescriptor">
+        insert into user_descriptor (id, userId, words)
+        values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=INTEGER}, #{words,jdbcType=LONGVARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.assignment.collect.po.userDescriptor.UserDescriptor">
+        update user_descriptor
+        set userId = #{userid,jdbcType=INTEGER},
+            words  = #{words,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select id, userId, words
+        from user_descriptor
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select id, userId, words
+        from user_descriptor
+    </select>
+    <select id="selectByUid" resultType="com.assignment.collect.po.userDescriptor.UserDescriptor">
+        select id, userId, words
+        from user_descriptor
+        where userId = #{userId,jdbcType=INTEGER}
+    </select>
+</mapper>
