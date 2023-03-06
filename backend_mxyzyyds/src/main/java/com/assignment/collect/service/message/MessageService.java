@@ -17,5 +17,7 @@ public interface MessageService {
 
     ResultVo<MessageVo> setRead(Long messageid, Long uid);
 
+    ResultVo<Integer> setAllRead(Long uid);
+
     ResultVo<MessageVo> write(MessageVo messageVo);
 }

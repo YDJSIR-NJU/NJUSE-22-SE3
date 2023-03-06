@@ -5,55 +5,88 @@
       </h1>
     </div>
     <div class="app-container">
+      <el-pagination
+        :total='numOfTasks'
+        :page-count='pagination.total'
+        :page-sizes="[10]"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
       <el-table :data="tableData"
                 class="table"
                 stripe
-                style="width: 70%"
+                style="width: 80%"
                 @row-click="handle">
         <el-table-column
-          label="id"
+          label="任务ID"
           prop="id"
-          width="180">
+          width="90"
+          align="center">
         </el-table-column>
         <el-table-column
           label="任务描述"
-          prop="taskDiscribe">
+          prop="taskDiscribe"
+        >
         </el-table-column>
         <el-table-column
           label="人数"
           prop="totalNum"
-          width="180">
+          width="60"
+          align="center">
         </el-table-column>
         <el-table-column
           label="类型"
-          prop="type">
+          prop="type"
+          width="150"
+          align="center"
+        >
         </el-table-column>
         <el-table-column
           label="开始时间"
-          prop="startTime">
+          width="240"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <div style="text-align: center">
+              <el-date-picker
+                v-model="scope.row.startTime"
+                format="yyyy年MM月dd hh:mm"
+                placeholder="选择日期"
+                type="date"
+                disabled
+
+                value-format="yyyy-MM-dd hh:mm:ss">
+              </el-date-picker>
+              <i class="el-icon-bottom" style="padding: 10px"></i>
+              <el-date-picker
+                v-model="scope.row.finishTime"
+                format="yyyy年MM月dd hh:mm"
+                placeholder="选择日期"
+                type="date"
+                value-format="yyyy-MM-dd hh:mm:ss">
+              </el-date-picker>
+            </div>
+
+          </template>
         </el-table-column>
         <el-table-column
-          label="截至时间"
-          prop="finishTime">
-        </el-table-column>
-        <el-table-column
-          label="操作">
+          label="操作"
+          width="90"
+          align="center"
+        >
           <el-button type="primary">查看</el-button>
         </el-table-column>
       </el-table>
-      <el-pagination
-        :page-count='pagination.total'
-        layout="prev, pager, next, jumper"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
+      <br></br>
+
     </div>
 
   </div>
 </template>
 <script>
 //import { getList } from '@/api/table'
-import {myTask} from '@/api/task'
+import { myTask } from '@/api/task'
 
 export default {
   filters: {
@@ -69,6 +102,7 @@ export default {
   data() {
     return {
       tableData: [],
+      numOfTasks: 0,
       //listLoading: true
       pagination: {
         total: 0,
@@ -88,6 +122,7 @@ export default {
       myTask(id, page).then(function (response) {
         console.log(response)
         that.tableData = response.data.list
+        that.numOfTasks = response.data.total
         that.pagination.total = response.data.pages
       })
     },

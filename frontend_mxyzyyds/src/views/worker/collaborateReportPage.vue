@@ -4,7 +4,7 @@
     <el-container style="height: 100%; border: 1px solid #eee">
 
       <el-aside width="50%">
-        <h1 style="text-align: left; font-size: 1.5rem; margin-left: 2rem">协作报告-测试报告{{
+        <h1 style="text-align: left; font-size: 1.5rem; margin-left: 2rem">新增协作报告-测试报告{{
             nowReport.id
           }}：{{ nowReport.title }}</h1>
         <el-descriptions :column="10" border direction="vertical" style="width: 90%;margin: 0 auto; font-size: 1rem">
@@ -13,12 +13,24 @@
               <el-button type="primary" @click="goToUserInfo(nowReport.userId)">众包工人{{ nowReport.userId }}</el-button>
             </el-tooltip>
           </el-descriptions-item>
-          <el-descriptions-item :span="1" label="操作系统">{{ nowReport.operatingSystem }}</el-descriptions-item>
-          <el-descriptions-item :span="1" label="设备品牌">{{ nowReport.deviceBrand }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="接收任务时间">{{ nowReport.commitTime }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="报告创建时间">{{ nowReport.createTime }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="报告状态">{{ nowReport.status }}</el-descriptions-item>
-          <el-descriptions-item :span="4" label="报告描述">{{ nowReport.desc }}</el-descriptions-item>
+          <el-descriptions-item :span="1" label="操作系统">
+            <el-tag>{{ nowReport.operatingSystem }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="1" label="设备品牌">
+            <el-tag>{{ nowReport.deviceBrand }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="接收任务时间">
+            {{ nowReport.commitTime }}
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="报告创建时间">
+            {{ nowReport.createTime }}
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="报告状态">
+            <el-tag>{{ nowReport.status }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="4" label="报告描述">
+            {{ nowReport.desc }}
+          </el-descriptions-item>
           <el-descriptions-item label="补充截图">
             点击图片可查看大图
             <div class="images" v-viewer="{inline: false}" @click="show">

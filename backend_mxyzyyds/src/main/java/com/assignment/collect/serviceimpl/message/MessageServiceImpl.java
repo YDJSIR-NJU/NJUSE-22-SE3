@@ -47,7 +47,13 @@ public class MessageServiceImpl implements MessageService {
         Message message = messageMapper.selectByPrimaryKey(messageid);
         message.setStatus("READ");
         messageMapper.updateByPrimaryKey(message);
-        return new ResultVo<MessageVo>(Constant.REQUEST_SUCCESS, "设置已读成功", new MessageVo(message));
+        return new ResultVo<>(Constant.REQUEST_SUCCESS, "设置已读成功", new MessageVo(message));
+    }
+
+    @Override
+    public ResultVo<Integer> setAllRead(Long uid) {
+        Integer res = messageMapper.setReadByUserId(uid);
+        return new ResultVo<>(Constant.REQUEST_SUCCESS, "设置全部已读成功", res);
     }
 
     @Override
@@ -56,7 +62,7 @@ public class MessageServiceImpl implements MessageService {
         message.setTime(new Date());
         message.setStatus("NEW");
         if (messageMapper.insert(message) > 0)
-            return new ResultVo<MessageVo>(Constant.REQUEST_SUCCESS, "发送成功", new MessageVo(message));
+            return new ResultVo<>(Constant.REQUEST_SUCCESS, "发送成功", new MessageVo(message));
         return new ResultVo<>(Constant.REQUEST_FAIL, "发送失败");
     }
 

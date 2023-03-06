@@ -8,10 +8,13 @@
     <div class="title">页面消失了哦o(╥﹏╥)o</div>
     <el-divider></el-divider>
     <el-button size="large" @click="myCenter">{{ fallback }}</el-button>
+    <COLLECTFooter></COLLECTFooter>
   </div>
 </template>
 <script>
+import COLLECTFooter from '../../components/Footer'
 export default {
+  components: { COLLECTFooter },
   data() {
     return {
       msg: window.localStorage.getItem('userRole'),

@@ -74,14 +74,16 @@
       </el-form-item>
       <el-button type="primary" @click="upload" v-loading.fullscreen.lock="fullscreenLoading">创建报告</el-button>
     </el-form>
-
+    <COLLECTFooter></COLLECTFooter>
   </div>
 </template>
 <script>
 import {submitReport} from '@/api/report'
 import {checkTaskStatus} from "@/api/task"
+import COLLECTFooter from '../../components/Footer'
 
 export default {
+  components: { COLLECTFooter },
   data() {
     return {
       fullscreenLoading: false,

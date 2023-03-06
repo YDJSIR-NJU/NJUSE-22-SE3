@@ -1,35 +1,72 @@
 <template>
-  <div class="bckg">
+  <div>
     <div class="head">
     </div>
-    <div class="title" style="text-align: center;margin-left: 30px">{{ Hello }}，{{ name }}</div>
+    <div class="title" style="">
+      {{ Hello }}，
+      <span v-if="msg==='WORKER'" style="color: #E0FFFF">{{ name }}</span>
+      <span v-if="msg==='PUBLISHER'" style="color: #98FB98">{{ name }}</span>
+      <span v-if="msg==='ADMINISTRATOR'" style="color: #DC143C">{{ name }}</span>
+      ！
+    </div>
 
-    <el-divider></el-divider>
+    <div style="margin: 0 auto; width: 100%; padding-top: 1.5rem">
+      <div v-if="msg==='PUBLISHER'">
 
-    <el-button v-if="msg==='PUBLISHER'" class="" type="success" @click="addTask"><i class="el-icon-edit"></i>
-      点击发布新测试任务
-    </el-button>
-    <el-button v-if="msg==='PUBLISHER'" class="" type="primary" @click="mytask"><i class="el-icon-date"></i>
-      点击查看已发布任务
-    </el-button>
-    <el-button v-if="msg==='WORKER'" class="" type="success" @click="seeDoneTask"><i class="el-icon-check"></i>
-      点击查看已完成任务
-    </el-button>
-    <el-button v-if="msg==='WORKER'" class="" type="primary" @click="seeOnTask"><i class="el-icon-more"></i>
-      点击查看执行中任务
-    </el-button>
-    <!--    <el-button class="btn" type="primary" @click="seePlayground"><i class="el-icon-edit"></i>-->
-    <!--      点击查看任务广场-->
-    <!--    </el-button>-->
-    <el-button v-if="msg==='ADMINISTRATOR'" class="" type="primary" @click="seeAllTask"><i class="el-icon-edit"></i>
-      点击查看所有任务
-    </el-button>
-    <el-button v-if="msg==='ADMINISTRATOR'" class="" type="success" @click="triggerActivenessUpdate"><i
-      class="el-icon-edit"></i>
-      更新周/月活跃度
-    </el-button>
+        &nbsp;
+        <el-button class="" type="success" @click="addTask"><i class="el-icon-edit"></i>
+          发布新测试任务
+        </el-button>
+        &nbsp;
+        <el-tag style="margin-bottom: 0.5rem;" type="success">
+          +
+        </el-tag>
+        &nbsp;→&nbsp;
+        <el-tag style="margin-bottom: 0.5rem;" type="primary">
+          {{ numOfTasks }}
+        </el-tag>
+        &nbsp;
+        <el-button class="" type="primary" @click="mytask"><i class="el-icon-date"></i>
+          查看已发布任务
+        </el-button>
+        &nbsp;
+      </div>
 
-    <el-divider></el-divider>
+      <div v-if="msg==='WORKER'">
+
+        <el-button class="" type="success" @click="seeDoneTask"><i class="el-icon-check"></i>
+          查看已完成任务
+        </el-button>
+        &nbsp;
+        <el-tag style="margin-bottom: 0.5rem;" type="success">
+          {{ historyNum }}
+        </el-tag>
+        &nbsp;
+        :
+        &nbsp;
+        <el-tag style="margin-bottom: 0.5rem;" type="primary">
+          {{ processingNum }}
+        </el-tag>
+        &nbsp;
+        <el-button class="" type="primary" @click="seeOnTask"><i class="el-icon-more"></i>
+          查看执行中任务
+        </el-button>
+
+      </div>
+
+      <div v-if="msg==='ADMINISTRATOR'">
+        <el-button class="" type="success" @click="triggerActivenessUpdate"><i
+          class="el-icon-edit"></i>
+          更新活跃度数据
+        </el-button>
+        <el-button class="" type="primary" @click="seeAllTask"><i class="el-icon-edit"></i>
+          查看所有的任务
+        </el-button>
+
+      </div>
+
+      <el-divider></el-divider>
+    </div>
 
     <el-container v-if="msg==='WORKER'" style="width: 95%; margin: 0 auto">
       <el-aside width="40%">
@@ -54,6 +91,87 @@
                      @click="handleClickchange(device.deviceBrand,device.operatingSystem,device.id)">修改
           </el-button>
         </el-card>
+      </el-aside>
+
+      <el-container style="width: 100%">
+        <el-aside width="100%" style="">
+          <h2 style="width: 90%; text-align: left">我的信息</h2>
+          <WorkerInfo :userId="uid"></WorkerInfo>
+        </el-aside>
+      </el-container>
+
+    </el-container>
+
+    <el-container v-if="msg==='PUBLISHER'" style="width: 95%; margin: 0 auto">
+
+      <el-aside width="50%">
+        <h2 style="width: 90%; text-align: left">已发布任务</h2>
+        <el-pagination
+          :total='numOfTasks'
+          :page-count='pagination.total'
+          :page-sizes="[10]"
+          layout="total, sizes, prev, pager, next, jumper"
+          @current-change="handleCurrentChange"
+        ></el-pagination>
+        <el-table :data="tableData"
+                  class="table"
+                  stripe
+                  style="width: 95%"
+                  @row-click="handle"
+        >
+          <el-table-column
+            label="任务ID"
+            prop="id"
+            width="90"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="任务描述"
+            prop="taskDiscribe"
+          >
+          </el-table-column>
+          <el-table-column
+            label="人数"
+            prop="totalNum"
+            width="60"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="开始时间"
+            width="240"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <div style="text-align: center">
+                <el-date-picker
+                  v-model="scope.row.startTime"
+                  format="yyyy年MM月dd hh:mm"
+                  placeholder="选择日期"
+                  type="date"
+                  disabled
+
+                  value-format="yyyy-MM-dd hh:mm:ss">
+                </el-date-picker>
+                <i class="el-icon-bottom" style="padding: 10px"></i>
+                <el-date-picker
+                  v-model="scope.row.finishTime"
+                  format="yyyy年MM月dd hh:mm"
+                  placeholder="选择日期"
+                  type="date"
+                  value-format="yyyy-MM-dd hh:mm:ss">
+                </el-date-picker>
+              </div>
+
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="操作"
+            width="90"
+            align="center"
+          >
+            <el-button type="primary">查看</el-button>
+          </el-table-column>
+        </el-table>
       </el-aside>
 
       <el-container style="width: 100%">
@@ -147,15 +265,6 @@
           </el-select>
           <i class="el-icon-right" style="padding: 10px"></i>
           <div style="height: 30px"></div>
-          <!--        <el-select v-model="form.system" placeholder="请选择测试系统">-->
-          <!--          <el-option label="WINDOWS" value="WINDOWS"></el-option>-->
-          <!--          <el-option label="LINUX" value="LINUX"></el-option>-->
-          <!--          <el-option label="MACOS" value="MACOS"></el-option>-->
-          <!--          <el-option label="ANDROID" value="ANDROID"></el-option>-->
-          <!--          <el-option label="IOS" value="IOS"></el-option>-->
-          <!--          <el-option label="IPADOS" value="IPADOS"></el-option>-->
-          <!--          <el-option label="OTHERS" value="OTHERS"></el-option>-->
-          <!--        </el-select>-->
           <el-radio-group v-model="changeForm.system">
             <el-radio-button label="WINDOWS"></el-radio-button>
             <el-radio-button label="LINUX"></el-radio-button>
@@ -178,7 +287,9 @@
           <div class="left">
             <el-card style="width: 70%;height: 290px;margin-left: 28%;background-color: #90EE90"
                      @click.native="clickStrategy1()">
-              <h3 style="text-align: left;margin-left: 20px">【当前策略】推荐策略1</h3>
+              <h3 style="text-align: left;margin-left: 20px">
+                <el-tag effect="dark" type="success">当前策略</el-tag> &nbsp; 推荐策略1
+              </h3>
               <div style="text-align: left;margin-left: 20px;margin-right: 20px;height: 120px">{{ des1 }}</div>
               <el-button @click="dialogChangeStr1Visible = true" type="primary">
                 <i class="el-icon-edit"></i>
@@ -201,7 +312,7 @@
         <div v-else>
           <div class="left">
             <el-card style="width: 70%;height: 290px;margin-left: 28%;" @click.native="clickStrategy1">
-              <h2 style="text-align: left;margin-left: 20px">推荐策略1</h2>
+              <h3 style="text-align: left;margin-left: 20px">推荐策略1</h3>
               <div style="text-align: left;margin-left: 20px;margin-right: 20px;height: 120px">{{ des1 }}</div>
               <el-button @click="dialogChangeStr1Visible = true" type="primary">
                 <i class="el-icon-edit"></i>
@@ -213,7 +324,9 @@
           <div class="right">
             <el-card style="width: 70%;height: 290px;margin-left: 2%;background-color: #90EE90"
                      @click.native="clickStrategy2()">
-              <h2 style="text-align: left;margin-left: 20px">【当前策略】推荐策略2</h2>
+              <h3 style="text-align: left;margin-left: 20px">
+                <el-tag effect="dark" type="success">当前策略</el-tag> &nbsp; 推荐策略2
+              </h3>
               <div style="text-align: left;margin-left: 20px;margin-right: 20px;height: 120px">{{ des2 }}</div>
               <el-button @click="dialogChangeStr2Visible = true" style="right: 2px;bottom: 2px" type="primary">
                 <i class="el-icon-edit"></i>
@@ -289,19 +402,33 @@
         </el-button>
       </el-card>
     </div>
+    <COLLECTFooter></COLLECTFooter>
   </div>
 </template>
 <script>
-import {changeStrategy, getStrategies, modifyStrategy} from '@/api/recommend'
-import {getSimConfig, setSimConfig} from "../../api/report";
-import {addDevice, deleteDevice, getMyDevice, updateDevice} from "../../api/user";
-import WorkerInfo from "@/components/workerInfo";
-import {triggerUpdateMon, triggerUpdateWk} from "@/api/userActiveness";
+import { changeStrategy, getStrategies, modifyStrategy } from '@/api/recommend'
+import { getSimConfig, setSimConfig } from '../../api/report'
+import { addDevice, deleteDevice, getMyDevice, updateDevice } from '../../api/user'
+import WorkerInfo from '@/components/workerInfo'
+import { triggerUpdateMon, triggerUpdateWk } from '@/api/userActiveness'
+import { myHistry, myProcessing, myTask } from '@/api/task'
+import COLLECTFooter from '../../components/Footer'
 
 export default {
-  components: {WorkerInfo},
+  components: {
+    COLLECTFooter,
+    WorkerInfo},
   data() {
     return {
+      tableData: [],
+      processingNum: 0,
+      historyNum: 0,
+      numOfTasks: 0,
+      pagination: {
+        total: 0,
+        pageSize: 10
+      },
+      pageNumber: 1,
       uid: window.localStorage.getItem('id'),
       changeDeviceDialogVisible: false,
       addDeviceDialogVisible: false,
@@ -340,43 +467,63 @@ export default {
   },
   mounted() {
     const that = this;
-    getMyDevice(localStorage.getItem('id'), 1).then(function (res) {
-      that.myDevices = res.data.list
-      console.log(that.myDevices)
-    })
-    getStrategies().then(function (res) {
-      console.log(res.data.data)
-      if (res.data.data[0].strategyId == 2) {
-        that.config = res.data.data[1].config
-        that.str2 = res.data.data[0].inUse;
-        that.des2 = res.data.data[0].description;
-        that.str1 = res.data.data[1].inUse;
-        that.des1 = res.data.data[1].description;
-        that.N1 = res.data.data[1].N;
-        that.N2 = res.data.data[0].N;
-      } else {
-        that.config = res.data.data[0].config
-        that.str2 = res.data.data[1].inUse;
-        that.des2 = res.data.data[1].description;
-        that.str1 = res.data.data[0].inUse;
-        that.des1 = res.data.data[0].description;
-        that.N1 = res.data.data[0].N;
-        that.N2 = res.data.data[1].N;
-      }
-      if (that.str2 == true) {
-        that.nowStrategy = 2;
-      } else {
-        that.nowStrategy = 1;
-      }
-      //console.log(that.config)
-
-
-    })
-    getSimConfig(window.localStorage.getItem('id')).then(function (res) {
-      console.log(res)
-      that.rejectedScore = res.data.data.rejectedScore
-      that.cooperationMin = res.data.data.cooperationMin
-    })
+    if(this.msg == "PUBLISHER"){
+      myTask(localStorage.getItem('id'), 1).then(function (response) {
+        console.log(response)
+        that.tableData = response.data.list
+        for (var item of that.tableData) {
+          if(item.taskDiscribe.length > 100){
+            item.taskDiscribe = item.taskDiscribe.substr(0, 100) + "……"
+          }
+        }
+        that.numOfTasks = response.data.total
+        that.pagination.total = response.data.pages
+      })
+    }
+    if(this.msg == "WORKER") {
+      getMyDevice(localStorage.getItem('id'), 1).then(function (res) {
+        that.myDevices = res.data.list
+        console.log(that.myDevices)
+      })
+      myProcessing(localStorage.getItem('id'), 1).then(function (response) {
+        that.processingNum = response.data.total
+      })
+      myHistry(localStorage.getItem('id'), 1).then(function (response) {
+        that.historyNum = response.data.total
+      })
+    }
+    if(this.msg == "ADMINISTRATOR"){
+      getStrategies().then(function (res) {
+        console.log(res.data.data)
+        if (res.data.data[0].strategyId == 2) {
+          that.config = res.data.data[1].config
+          that.str2 = res.data.data[0].inUse;
+          that.des2 = res.data.data[0].description;
+          that.str1 = res.data.data[1].inUse;
+          that.des1 = res.data.data[1].description;
+          that.N1 = res.data.data[1].N;
+          that.N2 = res.data.data[0].N;
+        } else {
+          that.config = res.data.data[0].config
+          that.str2 = res.data.data[1].inUse;
+          that.des2 = res.data.data[1].description;
+          that.str1 = res.data.data[0].inUse;
+          that.des1 = res.data.data[0].description;
+          that.N1 = res.data.data[0].N;
+          that.N2 = res.data.data[1].N;
+        }
+        if (that.str2 == true) {
+          that.nowStrategy = 2;
+        } else {
+          that.nowStrategy = 1;
+        }
+      })
+      getSimConfig(window.localStorage.getItem('id')).then(function (res) {
+        console.log(res)
+        that.rejectedScore = res.data.data.rejectedScore
+        that.cooperationMin = res.data.data.cooperationMin
+      })
+    }
   },
   created() {
     // console.log(window.localStorage.getItem("token"))
@@ -392,6 +539,34 @@ export default {
     }
   },
   methods: {
+    fetchData(page) {
+      var that = this
+      //this.listLoading = false
+      const id = window.localStorage.getItem('id')
+      myTask(id, page).then(function (response) {
+        console.log(response)
+        that.tableData = response.data.list
+        for (var item of that.tableData) {
+          if(item.taskDiscribe.length > 100){
+            item.taskDiscribe = item.taskDiscribe.substr(0, 100) + "……"
+          }
+        }
+        that.numOfTasks = response.data.total
+        that.pagination.total = response.data.pages
+      })
+    },
+    // add click method
+    handle(row, event, column) {
+      console.log(row.id)
+      this.$router.push({path: '/taskInfo', query: {id: row.id}})
+    },
+    handleCurrentChange(currentPage) {
+      console.log(this.pagination.total)
+      this.pageNumber = currentPage
+      console.log(this.pageNumber)
+      console.log(currentPage)
+      this.fetchData(currentPage)
+    },
     triggerActivenessUpdate() {
       const that = this
       triggerUpdateWk(window.localStorage.getItem('id')).then(res => {
@@ -582,14 +757,14 @@ export default {
 }
 </script>
 <style scoped>
-.head {
-  width: 100%;
-  height: 50px;
-}
 
 .title {
   font-weight: 500;
-  font-size: 70px;
+  font-size: 3rem;
+  padding: 3rem;
+  text-align: center;
+  background-image: linear-gradient(-225deg, #FF79c7 0%, #9b9aFF 100%);
+  color: #2d2d2d;
 }
 
 .btn {

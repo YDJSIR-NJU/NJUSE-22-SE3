@@ -4,8 +4,11 @@
       任务ID：{{ item.id }}
     </div>
     <div class="cardDescription">{{ item.taskDiscribe }}</div>
-    <div class="cardCharacters">{{ item.deviceBrand }} | {{ item.type }} | {{ item.operatingSystem }} |
-      {{ item.difficulty }}分
+    <div class="cardCharacters">
+      <el-tag>{{ item.deviceBrand }}</el-tag>&nbsp;
+      <el-tag>{{ item.type }}</el-tag>&nbsp;
+      <el-tag>{{ item.operatingSystem }}</el-tag>&nbsp;
+      <el-tag type="success">{{ item.difficulty }}分</el-tag>
     </div>
 
   </div>

@@ -56,6 +56,15 @@ public class MessageController {
         return messageService.setRead(messageid, uid);
     }
 
+    @ApiOperation("setRead")
+    @PostMapping("/allRead")
+    public ResultVo<Integer> setAllRead(@RequestParam Long uid, HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader(JWTUtils.header);
+        String subject = JWTUtils.verify(token);
+        uid = Long.parseLong(subject.split("_")[0]);
+        return messageService.setAllRead(uid);
+    }
+
     @ApiOperation("write")
     @PostMapping("/write")
     public ResultVo<MessageVo> write(@RequestBody MessageVo messageVo, HttpServletRequest httpServletRequest) {

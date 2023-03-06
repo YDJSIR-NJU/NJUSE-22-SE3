@@ -12,9 +12,15 @@
             </el-tooltip>
           </el-descriptions-item>
           <el-descriptions-item :span="2" label="报告创建时间">{{ createTime }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="操作系统">{{ os }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="设备品牌">{{ brand }}</el-descriptions-item>
-          <el-descriptions-item :span="4" label="报告描述">{{ desc }}</el-descriptions-item>
+          <el-descriptions-item :span="2" label="操作系统">
+            <el-tag>{{ os }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="设备品牌">
+            <el-tag>{{ brand }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="4" label="报告描述">
+            {{ desc }}
+          </el-descriptions-item>
           <el-descriptions-item label="补充截图">
             <!--        <div v-for="pic in finalpics" :key="pic"><img :src="pic" alt="img"></div>-->
             点击图片可查看大图
@@ -36,11 +42,21 @@
                 <el-button type="primary" @click="goToUserInfo(nowReport.userId)">众包工人{{ nowReport.userId }}</el-button>
               </el-tooltip>
             </el-descriptions-item>
-            <el-descriptions-item :span="1" label="操作系统">{{ nowReport.operatingSystem }}</el-descriptions-item>
-            <el-descriptions-item :span="1" label="设备品牌">{{ nowReport.deviceBrand }}</el-descriptions-item>
-            <el-descriptions-item :span="2" label="接收任务时间">{{ nowReport.commitTime }}</el-descriptions-item>
-            <el-descriptions-item :span="2" label="报告创建时间">{{ nowReport.createTime }}</el-descriptions-item>
-            <el-descriptions-item :span="2" label="报告状态">{{ nowReport.status }}</el-descriptions-item>
+            <el-descriptions-item :span="1" label="操作系统">
+              <el-tag>{{ nowReport.operatingSystem }}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item :span="1" label="设备品牌">
+              <el-tag>{{ nowReport.deviceBrand }}</el-tag>
+            </el-descriptions-item>
+            <el-descriptions-item :span="2" label="接收任务时间">
+              {{ nowReport.commitTime }}
+            </el-descriptions-item>
+            <el-descriptions-item :span="2" label="报告创建时间">
+              {{ nowReport.createTime }}
+            </el-descriptions-item>
+            <el-descriptions-item :span="2" label="报告状态">
+              <el-tag>{{ nowReport.status }}</el-tag>
+            </el-descriptions-item>
             <el-descriptions-item :span="4" label="报告描述">{{ nowReport.desc }}</el-descriptions-item>
             <el-descriptions-item label="补充截图">
               点击图片可查看大图
@@ -57,9 +73,9 @@
 </template>
 
 <script>
-import {getAdditionalDetail} from "../../api/additionalReport";
-import {reportDetail} from "@/api/report";
-import {getTestRecord} from "@/api/task";
+import { getAdditionalDetail } from '../../api/additionalReport'
+import { reportDetail } from '@/api/report'
+import { getTestRecord } from '@/api/task'
 
 export default {
   name: "additionalReportPage",

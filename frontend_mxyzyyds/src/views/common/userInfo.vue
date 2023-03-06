@@ -12,19 +12,19 @@
 
 <script>
 
-import WorkerInfo from "@/components/workerInfo";
-import {getUser} from "@/api/user";
+import WorkerInfo from '@/components/workerInfo'
+import { getUser } from '@/api/user'
 
 export default {
-  name: "messages",
-  components: {WorkerInfo},
+  name: 'UserInfo',
+  components: { WorkerInfo },
   props: {
     item: {}
   },
-  created() {
+  created () {
 
   },
-  mounted() {
+  mounted () {
     this.fetchData()
   },
   data() {

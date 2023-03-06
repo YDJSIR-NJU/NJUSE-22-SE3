@@ -20,6 +20,8 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
+    int setReadByUserId(Long userId);
+
     List<Message> selectByUserId(Long userId);
 
     List<Message> selectNewByUserId(Long userId);

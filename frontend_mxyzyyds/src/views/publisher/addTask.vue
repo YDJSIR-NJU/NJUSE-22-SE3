@@ -1,13 +1,12 @@
 <template>
   <div class="bkg">
     <div class="b">
-      <div class="c"></div>
       <div class="d">发布测试任务</div>
     </div>
     <el-form ref="form" :model="form" class="tmp" label-width="100px">
 
       <el-form-item class="g" label="招募人数" required>
-        <el-input v-model="form.peopleNum" style="width:90%;height:30px;"></el-input>
+        <el-input-number size="medium" v-model="form.peopleNum"></el-input-number>
       </el-form-item>
 
       <el-form-item class="g" label="起止时间" required>
@@ -112,13 +111,16 @@
     <!--        </el-button>-->
     <!--      </div>-->
     <!--    </div>-->
+    <COLLECTFooter></COLLECTFooter>
   </div>
 </template>
 <script>
 //import { myUpLoad } from "@/api/publisher"
 import {addTask} from '@/api/task'
+import COLLECTFooter from '../../components/Footer'
 
 export default {
+  components: { COLLECTFooter },
   data() {
     return {
       fullscreenLoading: false,
@@ -347,22 +349,18 @@ export default {
 }
 
 .b {
-  height: 200px;
-  background-color: rgb(77, 112, 165);
-}
-
-.c {
-  height: 70px;
+  padding: 3rem;
+  background-image: linear-gradient(120deg, #000080 0%, #4169E1 100%);
+  margin-bottom: 3rem ;
 }
 
 .d {
   font-size: 3rem;
-  color: antiquewhite;
+  color: #ffffff;
 }
 
 .bkg {
-  background-image: linear-gradient(120deg, #c3d8fc 0%, #ecfae3 100%);
-
+  background-color: #EEFFFF;
   width: 100%;
   height: 100%;
 }

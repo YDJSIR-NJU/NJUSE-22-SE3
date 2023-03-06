@@ -6,6 +6,14 @@
     </div>
     <report-word-cloud :taskId='taskid' style="width: 70%;margin-left: 15%"></report-word-cloud>
     <div class="app-container">
+      <el-pagination
+        :total='numOfTasks'
+        :page-count='pagination.total'
+        :page-sizes="[10]"
+        layout="total, sizes, prev, pager, next, jumper"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
       <el-table :data="tableData"
                 class="table"
                 stripe
@@ -14,55 +22,71 @@
         <el-table-column
           label="报告ID"
           prop="id"
-          width="180">
+          width="90"
+          align="center"
+        >
         </el-table-column>
-        <el-table-column
-          label="测试记录ID"
-          prop="testRecordId"
-          width="180">
-        </el-table-column>
+<!--        <el-table-column-->
+<!--          label="测试记录ID"-->
+<!--          prop="testRecordId"-->
+<!--          width="180">-->
+<!--        </el-table-column>-->
         <el-table-column
           label="设备类型"
-          prop="deviceBrand"
-          width="180">
+          width="120"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-tag>{{ scope.row.deviceBrand }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column
           label="测试系统"
-          prop="operatingSystem"
-          width="180">
+          width="120"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-tag>{{ scope.row.operatingSystem }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column
           label="报告描述"
           prop="description"
-          width="180">
+          >
         </el-table-column>
         <el-table-column
           label="报告状态"
-          prop="status">
+          width="90"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-tag>{{ scope.row.status }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column
-          label="操作">
+          label="操作"
+          width="90"
+          align="center"
+        >
           <el-button type="primary">查看</el-button>
         </el-table-column>
       </el-table>
-      <el-pagination
-        :page-count='pagination.total'
-        layout="prev, pager, next, jumper"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
-    </div>
 
+    </div>
+    <COLLECTFooter></COLLECTFooter>
   </div>
 </template>
 <script>
 //import { getList } from '@/api/table'
-import {reportList} from '@/api/report'
-import ReportWordCloud from "../../components/reportWordCloud";
+import { reportList } from '@/api/report'
+import ReportWordCloud from '../../components/reportWordCloud'
+import COLLECTFooter from '../../components/Footer'
 
 export default {
 
-  components: {ReportWordCloud},
+  components: {
+    COLLECTFooter,
+    ReportWordCloud},
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -76,6 +100,7 @@ export default {
   data() {
     return {
       taskid:this.$route.query.id,
+      numOfTasks: 0,
       pageTitle: "",
       tableData: [],
       //listLoading: true
@@ -105,6 +130,7 @@ export default {
       reportList(id, page, queryID).then(response => {
         console.log(response)
         that.tableData = response.data.list
+        that.numOfTasks = response.data.total
         that.pagination.total = response.data.pages
       })
     },

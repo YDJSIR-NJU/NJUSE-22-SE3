@@ -9,7 +9,7 @@
           {{ userInfo.email }}
         </el-descriptions-item>
         <el-descriptions-item :span="2" label="注册时间">{{ userInfo.createTime }}</el-descriptions-item>
-        <el-descriptions-item :span="2" label="任务偏好">{{ userInfo.preferTypes }}</el-descriptions-item>
+        <el-descriptions-item :span="2" label="任务偏好"><el-tag>{{ userInfo.preferTypes }}</el-tag> </el-descriptions-item>
         <!--        <el-descriptions-item :span="2" label="用户角色">{{ userInfo.userRole }}</el-descriptions-item>-->
         <!--        <el-descriptions-item :span="2" label="用户等级">{{ userInfo.level }}</el-descriptions-item>-->
         <el-descriptions-item :span="1" label="用户积分">{{ userInfo.credit }}</el-descriptions-item>
@@ -101,13 +101,13 @@
 </template>
 
 <script>
-import {getFinishedTaskSum, getReportDevicesSum, getUserCapabilitiesDetail} from "@/api/userCapabilities";
-import {getActivenessDetail} from "@/api/userActiveness";
-import {getUser} from "@/api/user";
-import {getUserWords} from "@/api/report";
+import { getFinishedTaskSum, getReportDevicesSum, getUserCapabilitiesDetail } from '@/api/userCapabilities'
+import { getActivenessDetail } from '@/api/userActiveness'
+import { getUser } from '@/api/user'
+import { getUserWords } from '@/api/report'
 import * as echarts from 'echarts'
-import "echarts-wordcloud/dist/echarts-wordcloud"
-import "echarts-wordcloud/dist/echarts-wordcloud.min"
+import 'echarts-wordcloud/dist/echarts-wordcloud'
+import 'echarts-wordcloud/dist/echarts-wordcloud.min'
 
 export default {
   name: "workerInfo",
@@ -115,7 +115,7 @@ export default {
   data() {
     return {
 
-      role: window.localStorage.getItem('userRole'),
+      role: 'WORKER',
       userInfo: {
         id: 0,
         createTime: '',

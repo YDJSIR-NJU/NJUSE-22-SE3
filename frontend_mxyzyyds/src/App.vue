@@ -2,7 +2,7 @@
   <div id="app">
     <el-container v-if="$route.meta.keepAlive">
       <el-header>
-        <NavigateMenu class="navi"></NavigateMenu>
+        <NavigateMenu :key="$route.fullPath" class="navi"></NavigateMenu>
       </el-header>
     </el-container>
     <router-view/>

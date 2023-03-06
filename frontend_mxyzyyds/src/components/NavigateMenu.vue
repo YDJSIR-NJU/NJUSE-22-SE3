@@ -8,12 +8,17 @@
              style="border: 0px">
       <el-menu-item index="/about"><img height="90%" src="../assets/logo.png"></el-menu-item>
       <el-menu-item v-if="userID!=null" index="/playground" style="color: #ffffff; font-size: 1rem">任务广场</el-menu-item>
-      <el-menu-item v-if="userID!=null" index="/messages" style="color: #ffffff; font-size: 1rem">消息中心</el-menu-item>
+      <el-menu-item v-if="userID!=null" index="/messages" style="color: #ffffff; font-size: 1rem">
+        消息中心<el-badge :value=newMessageNum :max="9999" style="margin-left: 10px" :hidden="newMessageNum==0"></el-badge>
+      </el-menu-item>
       <!--      <el-menu-item index="/mycenter" v-if="userID!=null">个人中心</el-menu-item>-->
       <el-menu-item v-if="role=='WORKER' && userID != null" index="/mycenter" style="color: #ffffff; font-size: 1rem">
         个人中心
       </el-menu-item>
       <el-menu-item v-if="role=='PUBLISHER' && userID != null" index="/mycenter"
+                    style="color: #ffffff; font-size: 1rem">个人中心
+      </el-menu-item>
+      <el-menu-item v-if="role=='ADMINISTRATOR' && userID != null" index="/mycenter"
                     style="color: #ffffff; font-size: 1rem">个人中心
       </el-menu-item>
 
@@ -35,41 +40,48 @@
 </template>
 
 <script>
-export default {
-  name: "NavigateMenu",
+import {getUnRead} from "@/api/message";
 
-  data() {
+export default {
+  name: 'NavigateMenu',
+  created () {
+    getUnRead(window.localStorage.getItem('id'), 1).then(res => {
+      this.newMessageNum=res.data.total
+      console.log(this.newMessageNum)
+    })
+  },
+
+  data () {
     return {
-      activeIndex: '/about',
+      newMessageNum:0,
       role: window.localStorage.getItem('userRole'),
       userID: window.localStorage.getItem('id'),
       uname: window.localStorage.getItem('uname')
-    };
+    }
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(keyPath);
-      this.$router.push({path: keyPath[0]})
+    handleSelect (key, keyPath) {
+      console.log(keyPath)
+      this.$router.push({ path: keyPath[0] })
       this.activeIndex = keyPath[0]
-
     },
-    handleLogin() {
-      this.$router.push({path: '/login'})
+    handleLogin () {
+      this.$router.push({ path: '/login' })
     },
-    handleMyCenter() {
-      this.$router.push({path: '/mycenter'})
+    handleMyCenter () {
+      this.$router.push({ path: '/mycenter' })
     },
-    handleRegister() {
-      this.$router.push({path: '/register'})
+    handleRegister () {
+      this.$router.push({ path: '/register' })
     },
-    handleLogout() {
+    handleLogout () {
       window.localStorage.removeItem('id')
       window.localStorage.removeItem('uname')
       window.localStorage.removeItem('userId')
       this.userID = null
-      this.$router.push({path: '/about'})
+      this.$router.push({ path: '/about' })
       this.activeIndex = 1
-      this.$message.info("已退出登录！")
+      this.$message.info('已退出登录！')
     }
 
   }

@@ -25,7 +25,9 @@
           <el-card style="text-align: left; width: 90%;margin-left: 5%;margin-bottom: 15px">
             <div style="font-size: 1.5rem;margin-bottom: 10px">补充报告id: {{ item.id }}</div>
             <div style="font-size: 1.2rem;margin-bottom: 10px">{{ item.description }}</div>
-            <div style="font-size: 1rem;color: #999999">{{ item.deviceBrand }} | {{ item.operatingSystem }} |
+            <div style="font-size: 1rem;color: #999999">
+              <el-tag>{{ item.deviceBrand }}</el-tag> &nbsp;
+              <el-tag>{{ item.operatingSystem }}</el-tag>
               {{ item.createTime }}
             </div>
           </el-card>
@@ -131,11 +133,21 @@
             </el-tooltip>
 
           </el-descriptions-item>
-          <el-descriptions-item :span="1" label="操作系统">{{ nowReport.operatingSystem }}</el-descriptions-item>
-          <el-descriptions-item :span="1" label="设备品牌">{{ nowReport.deviceBrand }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="接收任务时间">{{ nowReport.commitTime }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="报告创建时间">{{ nowReport.createTime }}</el-descriptions-item>
-          <el-descriptions-item :span="2" label="报告状态">{{ nowReport.status }}</el-descriptions-item>
+          <el-descriptions-item :span="1" label="操作系统">
+            <el-tag>{{ nowReport.operatingSystem }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="1" label="设备品牌">
+            <el-tag>{{ nowReport.deviceBrand }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="接收任务时间">
+            {{ nowReport.commitTime }}
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="报告创建时间">
+            {{ nowReport.createTime }}
+          </el-descriptions-item>
+          <el-descriptions-item :span="2" label="报告状态">
+            <el-tag>{{ nowReport.status }}</el-tag>
+          </el-descriptions-item>
           <el-descriptions-item :span="4" label="报告描述">
             <div v-html="nowReport.desc"></div>
           </el-descriptions-item>
@@ -281,7 +293,7 @@
 </template>
 
 <script>
-import CollaborateCard from "../../components/collaborateCard";
+import CollaborateCard from '../../components/collaborateCard'
 import * as echarts from 'echarts'
 import {
   getAvgScore,
@@ -293,10 +305,10 @@ import {
   releaseReportRemark,
   reportDetail,
   reviewReport
-} from "@/api/report";
-import {getAdditionalByReport} from "../../api/additionalReport";
-import {getTestRecord, taskDetail} from "@/api/task";
-import {getDistinctReport} from "../../api/report";
+} from '@/api/report'
+import { getAdditionalByReport } from '../../api/additionalReport'
+import { getTestRecord, taskDetail } from '@/api/task'
+import { getDistinctReport } from '../../api/report'
 
 export default {
   name: "newReportPage",

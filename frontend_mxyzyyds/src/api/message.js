@@ -46,4 +46,27 @@ export const sendInviteMsg = (uid, context) => {
     return res
   })
 }
-
+export const setAllRead = (uid) => {
+  return axios.post(`${MESSAGE_MODULE}/allRead?uid=${uid}`, {},
+    {
+      headers: {
+        // Authorization: store.state.token
+        Authorization: window.localStorage.getItem('token')
+      }
+    }
+  ).then(res =>{
+    updateToken(res)
+    return res
+  })
+}
+export const getUnRead = (uid, page) => {
+  return axios.get(`${MESSAGE_MODULE}/get/new/${uid}?page=${page}`, {
+    headers: {
+      // Authorization: store.state.token
+      Authorization: window.localStorage.getItem('token')
+    }
+  }).then(res => {
+    updateToken(res)
+    return res
+  })
+}
