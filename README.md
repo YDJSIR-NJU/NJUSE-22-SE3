@@ -1,4 +1,4 @@
-# NJUSE-22-SE3
+# NJUSE-COLLECT
 
 > 《软件工程与计算Ⅲ》与《人机交互》大作业
 > 总算是有一个~~拿得出手~~的项目了
@@ -20,6 +20,7 @@ backend_mxyzyyds/ # 后端
 developdocs_mxyzyyds/ # 文档
 frontend_mxyzyyds/ # 前端
 python_mxyzyyds/ # 算法
+HCI.pdf # 人机交互复习笔记
 README.assets # 本文档配图
 README.md # 本文档
 ```
@@ -30,7 +31,7 @@ https://box.nju.edu.cn/f/9bb4ef5aba524951b8a3/
 
 网站课程结束后自动下线。
 
-## 《软件工程与计算Ⅲ》相关
+## 《软件工程与计算Ⅲ》相关（92分）
 
 该项目的得分相当的高，且文档被某企业级BI工具的前端工程师表扬。
 
@@ -44,7 +45,9 @@ YDJSIR一定要和他们重构这个项目。（要不然拿去应聘太丢面�
 
 凭据信息已去除，且文档也只保留了必要部分。
 
-## 《人机交互》相关
+## 《人机交互》相关（96分）
+
+> HCI附赠一个PDF复习笔记。
 
 ### 项目选题：题目一
 
